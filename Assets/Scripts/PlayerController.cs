@@ -132,12 +132,12 @@ public class PlayerController : MonoBehaviour
             rightHandTarget.transform.position = newPosition;
         }
 
-        if (isLeftFootGrabbing)
+        if (!isLeftFootGrabbing && isRightFootGrabbing && (isRightHandGrabbing || isLeftHandGrabbing))
         {
             leftFootTarget.transform.position = newPosition;
         }
 
-        if (isRightFootGrabbing)
+        if (!isRightFootGrabbing && isLeftFootGrabbing && (isRightHandGrabbing || isLeftHandGrabbing))
         {
             rightFootTarget.transform.position = newPosition;
         }
