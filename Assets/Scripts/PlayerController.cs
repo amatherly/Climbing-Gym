@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             if (TryGrab(leftFoot, "Left Foot"))
             {
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             if (TryGrab(rightFoot, "Right Foot"))
             {
@@ -125,12 +125,12 @@ public class PlayerController : MonoBehaviour
             isRightHandGrabbing = false;
         }
 
-        if (Input.GetKeyUp(KeyCode.Z))
+        if (Input.GetKeyUp(KeyCode.X))
         {
             isLeftFootGrabbing = false;
         }
 
-        if (Input.GetKeyUp(KeyCode.X))
+        if (Input.GetKeyUp(KeyCode.Z))
         {
             isRightFootGrabbing = false;
         }
