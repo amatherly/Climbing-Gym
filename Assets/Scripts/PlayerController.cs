@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
 
     void Start()
-    { 
+    {
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
         animator = GetComponent<Animator>();
@@ -175,30 +175,38 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    Vector3 GetMousePosition()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = Camera.main.WorldToScreenPoint(leftHandTarget.transform.position).z; // Ensure the z-value is taken from an object in the scene
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        return worldPosition;
+    }
+
+
     bool TryGrab(GameObject hand, string handName)
     {
-        GameObject target = GetClosestObject(hand);
-
+        GameObject target = GetClosestObject(GetMousePosition(), hand);
+        Debug.Log("Target: " + target);
         if (target != null)
         {
             Debug.Log(handName + " hand is grabbing: " + target.name);
             hand.transform.position = Vector3.MoveTowards(hand.transform.position, target.transform.position,
                 grabSpeed * Time.deltaTime);
             audioListener.Play();
-
             GrabHold(hand, target);
             return true;
         }
-
         return false;
     }
+
 
     void GrabHold(GameObject hand, GameObject hold)
     {
         hand.transform.position = hold.transform.position;
     }
 
-    GameObject GetClosestObject(GameObject hand)
+    GameObject GetClosestObject(Vector3 position, GameObject hand)
     {
         float minDistance = float.MaxValue;
         GameObject closestObject = null;
@@ -206,14 +214,19 @@ public class PlayerController : MonoBehaviour
 
         foreach (GameObject obj in objects)
         {
-            float distance = Vector3.Distance(hand.transform.position, obj.transform.position);
-            if (distance < minDistance && distance <= grabDistance)
+            float distance = Vector3.Distance(position, obj.transform.position);
+            float handDistance = Vector3.Distance(hand.transform.position, obj.transform.position);
+            
+            if (distance < minDistance 
+                && distance <= grabDistance 
+                && handDistance <= grabDistance 
+                && handDistance < minDistance)
             {
+                Debug.Log("Distance: " + distance + " Min distance: " + minDistance + " Hand distance: " + handDistance + " Min hand distance: " + minDistance);
                 closestObject = obj;
                 minDistance = distance;
             }
         }
-
         return closestObject;
     }
 }
