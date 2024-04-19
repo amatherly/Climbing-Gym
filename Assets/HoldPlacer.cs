@@ -8,6 +8,7 @@ public class HoldPlacer : MonoBehaviour
     private Grid grid; // The grid system for placement
     [SerializeField]
     private GameObject holdPrefab; // The prefab for the climbing hold
+    private GameManager gameManager;
 
     public GameObject HoldPrefab
     {
@@ -56,13 +57,14 @@ public class HoldPlacer : MonoBehaviour
     void Start()
     {
         grid = FindObjectOfType<Grid>(); // Ensure the grid component is found and set correctly
+        gameManager = FindObjectOfType<GameManager>();
     }
     
  
     void Update()
     {
         UpdatePreviewHold();
-        if (Input.GetMouseButtonDown(0) && previewHold != null)
+        if (Input.GetMouseButtonDown(0) && previewHold != null && gameManager.gameMode == GameManager.GameMode.Build)
         {
             ConfirmPlacement();
         }

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     }
     
     public GameMode gameMode = GameMode.Build;
+    
     public GameObject player;
     public GameObject buildModeUI;
     public GameObject climbModeUI;
